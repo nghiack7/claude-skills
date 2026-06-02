@@ -12,7 +12,7 @@ Manages git worktrees for parallel development workflows.
 
 Before calling any script, resolve the scripts directory (version may vary):
 ```bash
-WT="$(ls -d ~/.claude/plugins/cache/aiocean-plugins/worktree/*/skills/worktree 2>/dev/null | sort -V | tail -1)"
+WT="$(ls -d ~/.claude/plugins/cache/*/*/skills/worktree ~/.claude/plugins/cache/*/*/*/skills/worktree ~/.claude/skills/worktree .claude/skills/worktree 2>/dev/null | sort -V | tail -1)"
 ```
 
 Then call scripts as `$WT/script-name`.

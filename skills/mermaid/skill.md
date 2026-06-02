@@ -1,12 +1,10 @@
 ---
 name: mermaid
-description: This skill should be used when the user asks to "share a mermaid diagram", "generate diagram URL", "create diagram link", or mentions mermaid, minimalmermaid, shareable mermaid. Generates shareable MinimalMermaid diagram URLs using LZ-String compression.
+description: Render and share Mermaid diagrams as image URLs via mermaid.ink (or locally). Use when the user asks to share/preview/generate a Mermaid diagram URL or image, create a diagram link, or mentions mermaid, shareable mermaid, diagram URL.
 patterns: []
 ---
 
-# MinimalMermaid URL Generator
-
-Base URL: `https://mimaid.aiocean.dev/`
+# Mermaid Diagram URL Generator
 
 ## 🚨 CRITICAL: NO MARKDOWN IN MERMAID CODE
 
@@ -53,78 +51,85 @@ flowchart TD
     style A fill:#ff6b6b,stroke:#c92a2a,color:#fff
 ```
 
-## How It Works
+## Generating Shareable URLs via mermaid.ink
 
-MinimalMermaid stores diagram code in the URL hash using LZ-String compression:
+[mermaid.ink](https://mermaid.ink) is a free, public, no-account service. It renders Mermaid diagrams from a URL-safe base64-encoded diagram source.
 
-- Compression: `LZString.compressToEncodedURIComponent(code)`
-- Decompression: `LZString.decompressFromEncodedURIComponent(hash)`
+URL formats:
+- **PNG image:** `https://mermaid.ink/img/<base64>`
+- **SVG image:** `https://mermaid.ink/svg/<base64>`
 
-## Generating URLs
+### Bash one-liner
 
-Use JavaScript to generate shareable URLs:
+```bash
+# Encode diagram source and build the URL
+DIAGRAM='flowchart TD
+    A[Start] --> B{Decision}
+    B -->|Yes| C[Do Something]
+    B -->|No| D[Do Nothing]
+    C --> E[End]
+    D --> E'
+
+BASE64=$(printf '%s' "$DIAGRAM" | base64 | tr '+/' '-_' | tr -d '=\n')
+echo "PNG: https://mermaid.ink/img/${BASE64}"
+echo "SVG: https://mermaid.ink/svg/${BASE64}"
+```
+
+### Python snippet
+
+```python
+import base64
+
+diagram = """flowchart TD
+    A[Start] --> B{Decision}
+    B -->|Yes| C[Do Something]
+    B -->|No| D[Do Nothing]
+    C --> E[End]
+    D --> E"""
+
+encoded = base64.urlsafe_b64encode(diagram.encode()).decode().rstrip("=")
+print(f"PNG: https://mermaid.ink/img/{encoded}")
+print(f"SVG: https://mermaid.ink/svg/{encoded}")
+```
+
+### Node.js snippet
 
 ```javascript
-// Using lz-string library
-const LZString = require("lz-string");
-
-const mermaidCode = `flowchart TD
+const diagram = `flowchart TD
     A[Start] --> B{Decision}
     B -->|Yes| C[Do Something]
     B -->|No| D[Do Nothing]
     C --> E[End]
     D --> E`;
 
-const compressed = LZString.compressToEncodedURIComponent(mermaidCode);
-const url = `https://mimaid.aiocean.dev/#${compressed}`;
-console.log(url);
+const encoded = Buffer.from(diagram).toString("base64url");
+console.log(`PNG: https://mermaid.ink/img/${encoded}`);
+console.log(`SVG: https://mermaid.ink/svg/${encoded}`);
 ```
 
-## Quick Generation (Bash)
+## Alternative: kroki.io
+
+[kroki.io](https://kroki.io) supports many diagram types including Mermaid. It uses zlib deflate + base64 encoding:
+
+```python
+import base64, zlib
+
+diagram = "flowchart TD\n    A --> B"
+compressed = zlib.compress(diagram.encode(), 9)
+encoded = base64.urlsafe_b64encode(compressed).decode()
+print(f"https://kroki.io/mermaid/svg/{encoded}")
+```
+
+## Local Rendering with mermaid-cli
+
+For offline use or CI pipelines, render diagrams locally with [mermaid-cli](https://github.com/mermaid-js/mermaid-cli):
 
 ```bash
-# Install lz-string if needed
-bun add -g lz-string
+# Render a .mmd file to PNG
+npx @mermaid-js/mermaid-cli -i diagram.mmd -o diagram.png
 
-# Generate URL using Node/Bun
-bun -e "
-const LZString = require('lz-string');
-const code = \`flowchart TD
-    A --> B\`;
-console.log('https://mimaid.aiocean.dev/#' + LZString.compressToEncodedURIComponent(code));
-"
-```
-
-## URL Parameters
-
-| Parameter      | Usage          | Description                                    |
-| -------------- | -------------- | ---------------------------------------------- |
-| `#<hash>`      | `/#CYew5g...`  | Compressed diagram code (required for sharing) |
-| `?room=<id>`   | `?room=myroom` | Enable real-time collaboration                 |
-| `?name=<name>` | `?name=Alice`  | Set display name for collaboration             |
-| `?hideEditor`  | `?hideEditor`  | View-only mode (hides editor pane)             |
-
-## Common Patterns
-
-### Share a Diagram
-
-```javascript
-const LZString = require("lz-string");
-const code = `your mermaid code here`;
-const hash = LZString.compressToEncodedURIComponent(code);
-console.log(`https://mimaid.aiocean.dev/#${hash}`);
-```
-
-### Collaborate on a Diagram
-
-```
-https://mimaid.aiocean.dev/?room=project-planning&name=Alice#<hash>
-```
-
-### Embed View-Only
-
-```
-https://mimaid.aiocean.dev/?hideEditor#<hash>
+# Render to SVG
+npx @mermaid-js/mermaid-cli -i diagram.mmd -o diagram.svg
 ```
 
 ## Supported Diagram Types
@@ -141,31 +146,3 @@ All Mermaid diagram types are supported:
 - `mindmap` - Mind maps
 - `timeline` - Timelines
 - `gitgraph` - Git graphs
-
-## Example URLs
-
-### Simple Flowchart
-
-```javascript
-const code = `flowchart LR
-    A[Input] --> B[Process] --> C[Output]`;
-// Generates: https://mimaid.aiocean.dev/#CYew5gLgpgBAYgdwDYBMCWA7ALgJwKYzCQAUJAUANQD0+ANCLgM4gDmIAxlQN4C+oAZuRhRYAIz79BIOA2bkQYUJFgByPgG4QAen0A6AAphYhYqXKVITAMYgL0ONXSyRBgExA
-```
-
-### Sequence Diagram
-
-```javascript
-const code = `sequenceDiagram
-    Alice->>Bob: Hello Bob!
-    Bob-->>Alice: Hi Alice!`;
-// Generates: https://mimaid.aiocean.dev/#CYQwLgBA9gTgpgOwC4FcDOA7ALiATgVxGGAGEB7EAGxAGMB7MAZxoG9i6B+AFxADNg5ACYguIAHS5C+UWIkAaEAEYZs2VPnzBAbnoAGaeIqNQA
-```
-
-## Features
-
-- **AI-Powered**: Generate diagrams using natural language with Google Gemini
-- **Real-time Collaboration**: Multiple users can edit simultaneously
-- **Auto-Save**: URL updates automatically as you type
-- **Pan & Zoom**: Navigate large diagrams easily
-- **Export**: Copy SVG or download PNG
-- **Syntax Highlighting**: Monaco editor with Mermaid support

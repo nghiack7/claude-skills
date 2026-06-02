@@ -5,14 +5,14 @@
     "url": "https://github.com/nghiack7"
   },
   "metadata": {
-    "description": "Curated collection of 89 reusable Agent Skills for Claude Code and compatible harnesses.",
+    "description": "Curated collection of 85 reusable Agent Skills for Claude Code and compatible harnesses.",
     "version": "1.0.0"
   },
   "plugins": [
     {
       "name": "claude-skills",
       "source": "./",
-      "description": "89 Agent Skills: engineering, cloud/devops, data & analytics, architecture, product, writing, and SaaS integrations.",
+      "description": "85 Agent Skills: engineering, cloud/devops, data & analytics, architecture, product, writing, and SaaS integrations.",
       "license": "MIT",
       "keywords": ["claude-code", "agent-skills", "golang", "devops", "product"]
     }

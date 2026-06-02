@@ -74,7 +74,8 @@ python3 .claude/skills/chart-generator/generate_chart.py \
 --type       Chart type (bar, line, pie, scatter, area, hbar)
 --data       JSON data string
 --title      Chart title
---output     Output filename (saved to tmp/charts/)
+--output     Output filename (e.g. my_chart.png)
+--outdir     Output directory (default: ./charts/ or CHART_OUTPUT_DIR env var)
 --xlabel     X-axis label
 --ylabel     Y-axis label
 --width      Figure width in inches (default: 10)
@@ -128,6 +129,6 @@ python3 .claude/skills/chart-generator/generate_chart.py \
 
 ## Output
 
-Charts are saved to: `tmp/charts/` and served via `https://localhost-4000.aiocean.dev/static/charts/`
+Charts are saved to `./charts/` by default. Override with `--outdir <path>` or the `CHART_OUTPUT_DIR` environment variable. The directory is created automatically if it does not exist.
 
-The script prints the public URL of the generated chart on success (e.g., `https://localhost-4000.aiocean.dev/static/charts/my_chart.png`).
+The script prints the absolute local file path of the generated chart on success (e.g., `/home/user/project/charts/my_chart.png`).

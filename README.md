@@ -1,10 +1,10 @@
 # claude-skills
 
-> A curated collection of **89 Agent Skills** for [Claude Code](https://claude.com/claude-code) — and any harness that reads the open [Agent Skills](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) format (Codex, Cursor, Gemini CLI, OpenCode).
+> A curated collection of **85 Agent Skills** for [Claude Code](https://claude.com/claude-code) — and any harness that reads the open [Agent Skills](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) format (Codex, Cursor, Gemini CLI, OpenCode).
 
-Each skill is a self-contained folder with a `SKILL.md` (trigger-rich description + instructions) and, where useful, bundled reference docs and scripts. Skills load **progressively** — only the matching skill's instructions enter context, so you can keep all 89 installed at once.
+Each skill is a self-contained folder with a `SKILL.md` (trigger-rich description + instructions) and, where useful, bundled reference docs and scripts. Skills load **progressively** — only the matching skill's instructions enter context, so you can keep them all installed at once.
 
-Many skills ship **bilingual triggers (English + Vietnamese)** so they activate naturally in either language.
+Every skill is **universal** — no private services, no single-vendor lock-in. All examples use placeholders (`<AWS_ACCOUNT_ID>`, `your-org.atlassian.net`, …). Many ship **bilingual triggers (English + Vietnamese)**.
 
 ## Install
 
@@ -20,12 +20,12 @@ git clone https://github.com/nghiack7/claude-skills.git
 claude --plugin-dir ./claude-skills
 ```
 
-**Or copy individual skills** into your project or personal skills directory:
+**Or copy individual skills:**
 ```bash
 cp -r claude-skills/skills/<skill-name> ~/.claude/skills/
 ```
 
-## Skills (89)
+## Skills (85)
 
 | Category | Count |
 |---|---|
@@ -34,9 +34,9 @@ cp -r claude-skills/skills/<skill-name> ~/.claude/skills/
 | [🗄️ Data, Databases & Analytics](#data-databases--analytics) | 7 |
 | [📐 Architecture & Technical Docs](#architecture--technical-docs) | 13 |
 | [📊 Product & Planning](#product--planning) | 16 |
-| [✍️ Writing, Content & Media](#writing-content--media) | 9 |
+| [✍️ Writing, Content & Media](#writing-content--media) | 6 |
 | [🔌 SaaS & Productivity Integrations](#saas--productivity-integrations) | 5 |
-| [🧠 Meta, Thinking & Workflow](#meta-thinking--workflow) | 7 |
+| [🧠 Meta, Thinking & Workflow](#meta-thinking--workflow) | 6 |
 
 ### 🧩 Engineering & Code
 
@@ -135,10 +135,7 @@ cp -r claude-skills/skills/<skill-name> ~/.claude/skills/
 
 | Skill | What it does |
 |---|---|
-| **`editor-review`** | This skill should be used when the user asks to review translation, biên tập, editor review, check translation quality, kiểm tra bản dịch, chỉnh sửa bản dịch, edit translation, or wants to do a qualit… |
 | **`epub-packing`** | This skill should be used when the user asks to "create an ebook", "convert Markdown to EPUB", "generate EPUB", "package articles for offline reading", or mentions epub, ebook, e-reader, kindle… |
-| **`epub-setup`** | This skill should be used when the user asks to setup translation, setup epub, tạo project dịch, unpack epub, mark epub, chuẩn bị dịch, install jread, or needs to create a new EPUB translation project… |
-| **`epub-translate`** | This skill should be used when the user asks to dịch sách, translate epub, translate chapter, dịch chapter, dịch tiếp, continue translating, or wants to translate content in an already-set-up EPUB pro… |
 | **`meeting-notes`** | This skill should be used when the user asks to "tạo meeting notes", "ghi chú cuộc họp", "meeting minutes", or needs a meeting notes template for documentation. |
 | **`neobrutalism`** | This skill should be used when the user asks to "apply neobrutalism", "create brutalist design", "add bold borders", "use hard shadows", or mentions neobrutalism, brutalist, bold design, high-contrast… |
 | **`release-notes`** | This skill should be used when the user asks to generate "release notes", "changelog", "what changed", "generate changelog", "create changelog", "write release notes", "version notes", or needs to cre… |
@@ -160,10 +157,9 @@ cp -r claude-skills/skills/<skill-name> ~/.claude/skills/
 | Skill | What it does |
 |---|---|
 | **`claude-manager`** | This skill should be used when the user asks to "manage skills", "disable skills", "enable skills", "reduce skill clutter", "analyze usage", "apply preset", or mentions starting work on a specific pro… |
-| **`debate-room`** | This skill should be used when the user asks to "start a debate", "discuss trade-offs", "debate this topic", "knowledge exchange", "challenge this idea", or wants structured technical debates between … |
 | **`job-description`** | This skill should be used when the user asks to "tạo JD", "viết job description", "mô tả công việc", or needs a job description template for recruitment. |
 | **`mental-models`** | This skill should be used when the user faces complex decisions, problem-solving, debugging, system design, strategic thinking, or needs structured reasoning… |
-| **`mermaid`** | This skill should be used when the user asks to "share a mermaid diagram", "generate diagram URL", "create diagram link", or mentions mermaid, minimalmermaid, shareable mermaid… |
+| **`mermaid`** | Render and share Mermaid diagrams as image URLs via mermaid.ink (or locally)… |
 | **`reflect`** | This skill should be used when the user asks to "reflect", "what did we learn", "save this knowledge", "extract learnings", "update CLAUDE.md from session", or wants to evaluate a completed session an… |
 | **`workflow`** | This skill should be used when the user asks about "workflow", "quy trình", "solution template", "viết solution", "commit format", "branch naming", "implementation doc", "docs/stories", "tạo solution"… |
 
@@ -172,13 +168,13 @@ cp -r claude-skills/skills/<skill-name> ~/.claude/skills/
 Every skill follows Anthropic's [skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices):
 
 - **Trigger-rich descriptions** in third person — the load-bearing field Claude uses to pick a skill.
-- **Progressive disclosure** — `SKILL.md` stays lean; deeper material lives in one-level `references/` files loaded on demand.
+- **Progressive disclosure** — `SKILL.md` stays lean; deeper material lives in one-level `references/` files.
 - **Bundled scripts** for deterministic operations instead of regenerated code.
-- **No secrets, no private endpoints** — all examples use placeholders (`<AWS_ACCOUNT_ID>`, `your-org.atlassian.net`, …).
+- **Universal & secret-free** — works for any project; no private endpoints, credentials, or vendor lock-in.
 
 ## Contributing
 
-PRs welcome — new skills, fixes, and better examples. Keep one skill per folder, follow the frontmatter conventions above, and never commit real credentials, internal hostnames, or customer data.
+PRs welcome — new skills, fixes, better examples. One skill per folder, follow the frontmatter conventions, keep every skill universal, and never commit real credentials, internal hostnames, or customer data.
 
 ## License
 

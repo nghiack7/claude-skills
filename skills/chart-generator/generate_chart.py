@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Chart Generator - Creates publication-quality charts using matplotlib.
-Output directory: tmp/charts/
+Output directory: ./charts/ by default (configurable via --outdir or CHART_OUTPUT_DIR env var).
 """
 
 import argparse
@@ -14,13 +14,8 @@ import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('Agg')  # Non-interactive backend for image generation
 
-# Default output directory (relative to project root)
-SCRIPT_DIR = Path(__file__).parent.resolve()
-PROJECT_ROOT = SCRIPT_DIR.parent.parent.parent  # .claude/skills/chart-generator -> project root
-OUTPUT_DIR = PROJECT_ROOT / "tmp" / "charts"
-
-# Base URL for serving static files
-BASE_URL = "https://localhost-4000.aiocean.dev/static/charts"
+# Default output directory — can be overridden by --outdir or CHART_OUTPUT_DIR env var
+_DEFAULT_OUTPUT_DIR = Path(os.environ.get("CHART_OUTPUT_DIR", "./charts"))
 
 # Default colors palette
 DEFAULT_COLORS = [
@@ -29,9 +24,9 @@ DEFAULT_COLORS = [
 ]
 
 
-def ensure_output_dir():
+def ensure_output_dir(output_dir: Path):
     """Ensure the output directory exists."""
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    output_dir.mkdir(parents=True, exist_ok=True)
 
 
 def parse_data(data_str: str) -> dict:
@@ -197,7 +192,8 @@ def create_area_chart(data: dict, ax, colors: list):
 
 def generate_chart(args):
     """Generate the chart based on arguments."""
-    ensure_output_dir()
+    output_dir = Path(args.outdir) if args.outdir else _DEFAULT_OUTPUT_DIR
+    ensure_output_dir(output_dir)
 
     # Parse inputs
     data = parse_data(args.data)
@@ -247,15 +243,14 @@ def generate_chart(args):
     plt.tight_layout()
 
     # Save chart
-    output_path = OUTPUT_DIR / args.output
+    output_path = output_dir / args.output
     fig.savefig(output_path, dpi=150, bbox_inches='tight',
                 facecolor='white', edgecolor='none')
     plt.close(fig)
 
-    # Return URL instead of path
-    chart_url = f"{BASE_URL}/{args.output}"
-    print(chart_url)
-    return chart_url
+    # Print the local file path
+    print(str(output_path.resolve()))
+    return str(output_path.resolve())
 
 
 def main():
@@ -272,7 +267,9 @@ def main():
     parser.add_argument('--title', default='',
                        help='Chart title')
     parser.add_argument('--output', '-o', required=True,
-                       help='Output filename (saved to tmp/charts/)')
+                       help='Output filename (e.g. my_chart.png)')
+    parser.add_argument('--outdir', default='',
+                       help='Output directory (default: ./charts/ or CHART_OUTPUT_DIR env var)')
     parser.add_argument('--xlabel', default='',
                        help='X-axis label')
     parser.add_argument('--ylabel', default='',

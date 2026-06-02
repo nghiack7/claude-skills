@@ -12,7 +12,7 @@ Manages skills, agents, and provides usage analytics to optimize Claude Code wor
 
 Before calling any script, resolve the scripts directory (version may vary):
 ```bash
-CM="$(ls -d ~/.claude/plugins/cache/aiocean-plugins/claude-manager/*/skills/claude-manager 2>/dev/null | sort -V | tail -1)"
+CM="$(ls -d ~/.claude/plugins/cache/*/*/skills/claude-manager ~/.claude/plugins/cache/*/*/*/skills/claude-manager ~/.claude/skills/claude-manager .claude/skills/claude-manager 2>/dev/null | sort -V | tail -1)"
 ```
 
 ```bash

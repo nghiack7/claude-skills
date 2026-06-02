@@ -10,7 +10,7 @@ Remove image backgrounds using threshold (fast, for mono/simple images) or rembg
 
 Before calling any script, resolve the scripts directory (version may vary):
 ```bash
-RB="$(ls -d ~/.claude/plugins/cache/aiocean-plugins/remove-bg/*/skills/remove-bg 2>/dev/null | sort -V | tail -1)"
+RB="$(ls -d ~/.claude/plugins/cache/*/*/skills/remove-bg ~/.claude/plugins/cache/*/*/*/skills/remove-bg ~/.claude/skills/remove-bg .claude/skills/remove-bg 2>/dev/null | sort -V | tail -1)"
 ```
 
 ## Quick start

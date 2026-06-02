@@ -13,7 +13,7 @@ patterns: []
 
 Before calling any script, resolve the scripts directory (version may vary):
 ```bash
-MM="$(ls -d ~/.claude/plugins/cache/aiocean-plugins/mental-models/*/skills/mental-models/scripts 2>/dev/null | sort -V | tail -1)"
+MM="$(ls -d ~/.claude/plugins/cache/*/*/skills/mental-models/scripts ~/.claude/plugins/cache/*/*/*/skills/mental-models/scripts ~/.claude/skills/mental-models/scripts .claude/skills/mental-models/scripts 2>/dev/null | sort -V | tail -1)"
 ```
 
 Then use the script to browse and search models:

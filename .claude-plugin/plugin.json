@@ -1,7 +1,7 @@
 {
   "name": "claude-skills",
   "version": "1.0.0",
-  "description": "A curated collection of 89 Agent Skills for Claude Code — engineering, cloud/devops, data, architecture, product, writing, and SaaS integrations. Bilingual (EN/VI) trigger phrases.",
+  "description": "A curated collection of 85 Agent Skills for Claude Code — engineering, cloud/devops, data, architecture, product, writing, and SaaS integrations. Bilingual (EN/VI) trigger phrases.",
   "author": {
     "name": "nghiack7",
     "url": "https://github.com/nghiack7"

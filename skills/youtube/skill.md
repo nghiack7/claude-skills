@@ -8,7 +8,7 @@ patterns: []
 
 Before calling any script, resolve the scripts directory (version may vary):
 ```bash
-YT="$(ls -d ~/.claude/plugins/cache/aiocean-plugins/youtube/*/skills/youtube/scripts | sort -V | tail -1)"
+YT="$(ls -d ~/.claude/plugins/cache/*/*/skills/youtube/scripts ~/.claude/plugins/cache/*/*/*/skills/youtube/scripts ~/.claude/skills/youtube/scripts .claude/skills/youtube/scripts 2>/dev/null | sort -V | tail -1)"
 ```
 
 Then call scripts as: `$YT/yt-search "query"`
@@ -29,7 +29,7 @@ Then call scripts as: `$YT/yt-search "query"`
 
 ```bash
 # Resolve scripts path first
-YT="$(ls -d ~/.claude/plugins/cache/aiocean-plugins/youtube/*/skills/youtube/scripts | sort -V | tail -1)"
+YT="$(ls -d ~/.claude/plugins/cache/*/*/skills/youtube/scripts ~/.claude/plugins/cache/*/*/*/skills/youtube/scripts ~/.claude/skills/youtube/scripts .claude/skills/youtube/scripts 2>/dev/null | sort -V | tail -1)"
 
 # Search
 $YT/yt-search "react hooks tutorial" 10
