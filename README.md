@@ -1,6 +1,6 @@
 # claude-skills
 
-> A curated collection of **85 Agent Skills** for [Claude Code](https://claude.com/claude-code) — and any harness that reads the open [Agent Skills](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) format (Codex, Cursor, Gemini CLI, OpenCode).
+> A curated collection of **86 Agent Skills** for [Claude Code](https://claude.com/claude-code) — and any harness that reads the open [Agent Skills](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) format (Codex, Cursor, Gemini CLI, OpenCode).
 
 Each skill is a self-contained folder with a `SKILL.md` (trigger-rich description + instructions) and, where useful, bundled reference docs and scripts. Skills load **progressively** — only the matching skill's instructions enter context, so you can keep them all installed at once.
 
@@ -25,7 +25,7 @@ claude --plugin-dir ./claude-skills
 cp -r claude-skills/skills/<skill-name> ~/.claude/skills/
 ```
 
-## Skills (85)
+## Skills (86)
 
 | Category | Count |
 |---|---|
@@ -47,6 +47,7 @@ cp -r claude-skills/skills/<skill-name> ~/.claude/skills/
 | **`debug`** | This skill should be used when the user asks to "debug", "fix bug", "fixbug", "investigate error", "troubleshoot", "why is this broken", "not working", "failing test", "unexpected behavior", or encoun… |
 | **`dispatching-parallel-agents`** | Use when facing 2+ independent tasks that can be worked on without shared state or sequential dependencies |
 | **`gitflow`** | This skill should be used when the user asks to "start feature", "create hotfix", "finish feature", "start release", "start bugfix", "merge to develop", "merge to master", "git flow init", "accept MR"… |
+| **`iterm-ai-team`** | Run a team of AI CLI agents (claude/cursor/copilot) in visible iTerm split panes to work in parallel and watch each agent live; Claude orchestrates + reviews while cheaper CLIs implement to save tokens… |
 | **`golang-mastery`** | This skill should be used when the user asks to "write Go code", "review Go code", "refactor Go", "Go best practices", "Go concurrency", "Go error handling", "Go testing", "gRPC server", or mentions G… |
 | **`golangci-lint`** | This skill should be used when the user asks to "lint Go code", "lint changed code", "lint PR", "fix lint errors", "fix golangci-lint config", or mentions golangci-lint, Go linting… |
 | **`karpathy-guidelines`** | Behavioral guidelines to reduce common LLM coding mistakes… |
